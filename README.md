@@ -54,4 +54,4 @@ Copy the `env.example` file in the project root, rename it to `.env` and edit th
 
 ## License
 
-This project is licensed under the MIT license.
+This project is licensed under the terms of the MIT license.
