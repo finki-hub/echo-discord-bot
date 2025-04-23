@@ -1,4 +1,4 @@
-name: CI/CD Workflow
+name: Docker
 
 on:
   push:
@@ -8,40 +8,15 @@ on:
     branches:
       - "main"
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  eslint:
-    name: ESLint
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: Install Dependencies
-        run: |
-          cd bot
-          npm install
-
-      - name: Run Linter
-        run: |
-          cd bot
-          npm run lint
-
   docker-bot:
     name: Docker Image (Bot)
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs:
-      - eslint
-
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Set up QEMU
@@ -69,10 +44,6 @@ jobs:
     name: Docker Image (Strapi)
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Set up QEMU
