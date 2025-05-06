@@ -12,7 +12,7 @@
   },
   "description": "Echo Discord Bot",
   "devDependencies": {
-    "esbuild": "^0.25.3",
+    "esbuild": "^0.25.4",
     "eslint": "^9.26.0",
     "eslint-config-imperium": "^2.2.0",
     "husky": "^9.1.7",
