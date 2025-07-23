@@ -51,7 +51,7 @@ const QuestionSchema = z
     documentId: z.string(),
     files: z.array(FileSchema).nullable(),
     id: z.number(),
-    links: z.record(z.string()).nullable(),
+    links: z.record(z.string(), z.string()).nullable(),
     locale: z.string().nullable(),
     name: z.string(),
     publishedAt: z.string(),
