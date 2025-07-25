@@ -6,7 +6,7 @@
   "dependencies": {
     "discord-api-types": "^0.38.16",
     "discord.js": "^14.21.0",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
     "winston": "^3.17.0",
     "zod": "^4.0.8"
   },
