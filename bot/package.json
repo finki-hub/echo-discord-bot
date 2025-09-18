@@ -4,7 +4,7 @@
     "url": "https://github.com/Delemangi/echo-discord-bot/issues"
   },
   "dependencies": {
-    "discord-api-types": "^0.38.25",
+    "discord-api-types": "^0.38.26",
     "discord.js": "^14.22.1",
     "dotenv": "^17.2.2",
     "winston": "^3.17.0",
