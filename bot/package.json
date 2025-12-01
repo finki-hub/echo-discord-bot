@@ -16,7 +16,7 @@
     "eslint": "^9.39.1",
     "eslint-config-imperium": "^2.8.0",
     "rimraf": "^6.1.2",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3"
   },
   "engines": {
