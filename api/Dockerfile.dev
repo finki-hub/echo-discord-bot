@@ -1,11 +1,11 @@
 FROM node:22-alpine
-RUN apk update && apk add --no-cache autoconf automake bash build-base gcc libpng-dev nasm vips-dev zlib-dev
 ENV NODE_ENV=development
+RUN apk update && apk add --no-cache autoconf automake bash build-base gcc libpng-dev nasm vips-dev zlib-dev python3 make g++
 
 WORKDIR /opt/
 COPY package.json package-lock.json ./
-RUN npm i -g node-gyp && npm config set fetch-retry-maxtimeout 600000 -g && npm i
-ENV PATH /opt/node_modules/.bin:$PATH
+RUN npm i -g node-gyp && npm config set fetch-retry-maxtimeout 600000 -g && npm ci --no-audit --no-fund && npm i node-addon-api
+ENV PATH=/opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
 COPY . .
