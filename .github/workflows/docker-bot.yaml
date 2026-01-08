@@ -1,0 +1,18 @@
+name: Docker (Bot)
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  docker:
+    uses: finki-hub/.github/.github/workflows/docker.yaml@main
+    with:
+      dockerfile: ./bot/Dockerfile
+      context: ./bot
+      package-name: echo-discord-bot-bot
+    secrets: inherit
