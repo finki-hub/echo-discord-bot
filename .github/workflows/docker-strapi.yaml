@@ -12,7 +12,7 @@ jobs:
   docker:
     uses: finki-hub/.github/.github/workflows/docker.yaml@main
     with:
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./api/Dockerfile.prod
       context: ./api
       package-name: echo-discord-bot-strapi
     secrets: inherit
