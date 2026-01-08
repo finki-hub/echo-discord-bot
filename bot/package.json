@@ -8,13 +8,13 @@
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.3",
     "winston": "^3.19.0",
-    "zod": "^4.1.13"
+    "zod": "^4.3.5"
   },
   "description": "Echo Discord Bot",
   "devDependencies": {
-    "esbuild": "^0.27.1",
+    "esbuild": "^0.27.2",
     "eslint": "^9.39.2",
-    "eslint-config-imperium": "^3.0.0",
+    "eslint-config-imperium": "^3.1.0",
     "rimraf": "^6.1.2",
     "tsx": "^4.21.0",
     "typescript": "~5.9.3"
