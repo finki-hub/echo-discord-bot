@@ -8,7 +8,7 @@
     "discord.js": "^14.26.4",
     "dotenv": "^17.4.2",
     "winston": "^3.19.0",
-    "zod": "^4.4.1"
+    "zod": "^4.4.3"
   },
   "description": "Echo Discord Bot",
   "devDependencies": {
