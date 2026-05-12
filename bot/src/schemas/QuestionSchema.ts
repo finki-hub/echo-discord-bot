@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase -- Strapi response fields are snake_case and must match the API payload exactly. */
 
 import { z } from 'zod';
 

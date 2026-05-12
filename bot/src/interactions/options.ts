@@ -64,9 +64,7 @@ const transformations = {
 };
 
 const transformWords = (word: string) => {
-  let suffixes: string[] = [];
-
-  suffixes = word.length === 1 ? [''] : transformWords(word.slice(1));
+  const suffixes = word.length === 1 ? [''] : transformWords(word.slice(1));
 
   const transformedWords: string[] = [];
 
