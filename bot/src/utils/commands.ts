@@ -7,6 +7,9 @@ import { logger } from './logger.js';
 
 const commands = new Collection<string, Command>();
 
+const loadCommand = async (file: string) =>
+  import(`../commands/${file}`) as Promise<Command>;
+
 const refreshCommands = async () => {
   const commandFiles = readdirSync('./dist/commands').filter((file) =>
     file.endsWith('.js'),
@@ -15,8 +18,7 @@ const refreshCommands = async () => {
   commands.clear();
 
   for (const file of commandFiles) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const command: Command = await import(`../commands/${file}`);
+    const command = await loadCommand(file);
     commands.set(command.data.name, command);
   }
 };
