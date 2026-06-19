@@ -1,8 +1,4 @@
 {
-  "author": "Delemangi",
-  "bugs": {
-    "url": "https://github.com/Delemangi/echo-discord-bot/issues"
-  },
   "dependencies": {
     "discord-api-types": "^0.38.49",
     "discord.js": "^14.26.4",
@@ -10,26 +6,18 @@
     "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
-  "description": "Echo Discord Bot",
   "devDependencies": {
     "esbuild": "^0.28.1",
     "eslint": "^10.5.0",
-    "eslint-config-imperium": "^4.0.2",
+    "eslint-config-imperium": "^4.1.4",
     "rimraf": "^6.1.3",
     "tsx": "^4.22.4",
     "typescript": "~6.0.3"
   },
-  "engines": {
-    "node": "^20 || ^22 || ^24"
-  },
-  "homepage": "https://github.com/Delemangi/echo-discord-bot",
   "license": "MIT",
   "main": "src/main.ts",
   "name": "echo-discord-bot",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Delemangi/echo-discord-bot.git"
-  },
+  "private": true,
   "scripts": {
     "build": "npm run clean && node esbuild.config.js",
     "dev": "node --watch --import=tsx src/index.ts",
