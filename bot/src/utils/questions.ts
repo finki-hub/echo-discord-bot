@@ -9,35 +9,23 @@ __## ${question.name.trim()}__
 ${question.content.trim()}`.trim();
 
 export const getQuestionButtons = (question: Question) => {
-  const components = [];
-
   if (question.links === null) {
     return [];
   }
 
   const links = Object.entries(question.links);
+  const components = [];
 
-  for (let index1 = 0; index1 < links.length; index1 += 5) {
+  for (let index = 0; index < links.length; index += 5) {
     const row = new ActionRowBuilder<ButtonBuilder>();
-    const buttons = [];
 
-    for (let index2 = index1; index2 < index1 + 5; index2++) {
-      const link = links[index2];
-
-      if (link === undefined) {
-        break;
-      }
-
-      const [name, url] = link;
-
-      const button = new ButtonBuilder()
+    const buttons = links.slice(index, index + 5).map(([name, url]) =>
+      new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setEmoji('🔗')
         .setLabel(name)
-        .setURL(url.startsWith('http') ? url : `https://${url}`);
-
-      buttons.push(button);
-    }
+        .setURL(url.startsWith('http') ? url : `https://${url}`),
+    );
 
     row.addComponents(buttons);
     components.push(row);

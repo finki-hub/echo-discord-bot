@@ -47,8 +47,9 @@ export const registerCommands = async (
 ) => {
   const rest = new REST().setToken(token);
   const commandsData = [];
+  const loadedCommands = await getCommands();
 
-  for (const [, command] of await getCommands()) {
+  for (const [, command] of loadedCommands) {
     commandsData.push(command.data.toJSON());
   }
 

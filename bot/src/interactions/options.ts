@@ -1,4 +1,4 @@
-const transformations = {
+const transformations: Record<string, string[]> = {
   а: ['a'],
   А: ['A'],
   б: ['b'],
@@ -68,8 +68,10 @@ const transformWords = (word: string) => {
 
   const transformedWords: string[] = [];
 
-  // @ts-expect-error even if this is undefined, nullish coalescing works just fine
-  for (const letter of transformations[word[0]] ?? word[0]) {
+  const firstLetter = word.at(0) ?? '';
+  const letters = transformations[firstLetter] ?? firstLetter;
+
+  for (const letter of letters) {
     for (const suffix of suffixes) {
       transformedWords.push(letter + suffix);
     }
