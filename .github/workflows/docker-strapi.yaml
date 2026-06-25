@@ -15,4 +15,5 @@ jobs:
       dockerfile: ./api/Dockerfile.prod
       context: ./api
       package-name: echo-discord-bot-strapi
+      cache-backend: registry
     secrets: inherit
