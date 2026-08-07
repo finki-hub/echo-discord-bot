@@ -17,7 +17,7 @@
     "pg": "8.13.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^7.1.1",
+    "react-router-dom": "^6.30.4",
     "styled-components": "^6.4.1"
   },
   "devDependencies": {
@@ -26,9 +26,12 @@
     "@types/react-dom": "^18.3.5",
     "typescript": "~5.9.3"
   },
+  "overrides": {
+    "sharp": "0.35.3"
+  },
   "engines": {
-    "node": "^20 || ^22",
-    "npm": ">=6.0.0"
+    "node": "^20.9.0 || ^22.0.0",
+    "npm": ">=8.3.0"
   },
   "strapi": {
     "uuid": "cb008333-d01a-479f-862e-d6907bd0e3a2"
