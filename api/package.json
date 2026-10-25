@@ -1,8 +1,36 @@
 {
-  "name": "api",
-  "version": "0.1.0",
-  "private": true,
+  "allowScripts": {
+    "@swc/core": true,
+    "core-js-pure": false,
+    "esbuild": true,
+    "fsevents": false
+  },
+  "dependencies": {
+    "@strapi/plugin-cloud": "5.59.0",
+    "@strapi/plugin-users-permissions": "5.59.0",
+    "@strapi/strapi": "5.59.0",
+    "pg": "8.13.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "styled-components": "^6.6.0"
+  },
   "description": "A Strapi application",
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "~5.9.3"
+  },
+  "engines": {
+    "node": "^20.9.0 || ^22.0.0",
+    "npm": ">=8.3.0"
+  },
+  "name": "api",
+  "overrides": {
+    "sharp": "0.35.3"
+  },
+  "private": true,
   "scripts": {
     "build": "strapi build",
     "deploy": "strapi deploy",
@@ -10,30 +38,8 @@
     "start": "strapi start",
     "strapi": "strapi"
   },
-  "dependencies": {
-    "@strapi/plugin-cloud": "5.50.0",
-    "@strapi/plugin-users-permissions": "5.51.0",
-    "@strapi/strapi": "5.58.0",
-    "pg": "8.13.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.30.6",
-    "styled-components": "^6.4.1"
-  },
-  "devDependencies": {
-    "@types/node": "^22.19.15",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "typescript": "~5.9.3"
-  },
-  "overrides": {
-    "sharp": "0.35.3"
-  },
-  "engines": {
-    "node": "^20.9.0 || ^22.0.0",
-    "npm": ">=8.3.0"
-  },
   "strapi": {
     "uuid": "cb008333-d01a-479f-862e-d6907bd0e3a2"
-  }
+  },
+  "version": "0.1.0"
 }
