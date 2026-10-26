@@ -42,6 +42,8 @@ From `bot`, run `npm run lint`, `npm test`, and `npm run build`. From `api`, run
 
 The bot overrides `@discordjs/builders`' Shapeshift dependency to version 5 for Node 26's `InspectContext` typings. Remove this override once the upstream dependency supports Node 26 without it.
 
+The API also overrides selected Strapi-pinned dependencies with same-major security updates. Review these overrides when upgrading Strapi; incompatible major updates are not forced into its dependency graph.
+
 ## Running
 
 ### Running (Docker)
