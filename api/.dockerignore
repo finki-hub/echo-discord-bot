@@ -5,12 +5,24 @@ node_modules/
 .tmp/
 .cache/
 build/
+dist/
+.strapi/
+coverage/
+*.tsbuildinfo
+public/uploads/*
+!public/uploads/.gitkeep
+logs/
+*.log
 data/
 backup/
 
 # Development
 .editorconfig
-.env
+.env*
+**/.env*
+**/.npmrc
+**/*.pem
+**/*.key
 
 # ESLint
 .eslintcache

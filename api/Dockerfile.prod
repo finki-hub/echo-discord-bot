@@ -1,38 +1,43 @@
+# syntax=docker/dockerfile:1
 FROM --platform=${BUILDPLATFORM} node:26-alpine AS build
+ARG BUILDARCH
 ENV NODE_ENV=production
-ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
-RUN apk update && apk add --no-cache autoconf automake build-base gcc libpng-dev vips-dev zlib-dev >/dev/null 2>&1
 
 WORKDIR /opt/
 COPY package.json package-lock.json ./
-RUN npm config set fetch-retry-maxtimeout 600000 -g && npm ci --omit=dev --no-audit --no-fund
+RUN --mount=type=cache,id=echo-api-npm-${BUILDARCH},target=/root/.npm,sharing=locked \
+    npm ci --omit=dev --no-audit --no-fund
 ENV PATH=/opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
 COPY . .
 RUN npm run build
 
-FROM node:26-alpine AS build-sharp
-ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
-RUN apk add --no-cache vips-dev >/dev/null 2>&1
-
+# Install native optional packages on the target platform, not the build host.
+# Sharp's musl binaries bundle libvips; no system libvips or compiler is needed.
+FROM node:26-alpine AS production-dependencies
+ARG TARGETARCH
+ENV NODE_ENV=production
 WORKDIR /opt/
 COPY package.json package-lock.json ./
-RUN npm config set fetch-retry-maxtimeout 600000 -g && npm ci --omit=dev --no-audit --no-fund
+RUN --mount=type=cache,id=echo-api-npm-${TARGETARCH},target=/root/.npm,sharing=locked \
+    npm ci --omit=dev --no-audit --no-fund
 
 FROM node:26-alpine AS final
 ENV NODE_ENV=production
-RUN apk add --no-cache vips-dev
-
+ENV PATH=/opt/node_modules/.bin:$PATH
 WORKDIR /opt/
-COPY --from=build /opt/node_modules ./node_modules
-COPY --from=build-sharp /opt/node_modules ./node_modules
+COPY --from=production-dependencies /opt/node_modules ./node_modules
 
 WORKDIR /opt/app
-COPY --from=build /opt/app ./
-ENV PATH=/opt/node_modules/.bin:$PATH
-
-RUN chown -R node:node /opt/app
+# The CLI uses tsconfig.json to locate dist; dist also contains the admin build.
+COPY --from=build --chown=node:node /opt/app/package.json /opt/app/tsconfig.json /opt/app/favicon.png ./
+COPY --from=build --chown=node:node /opt/app/dist ./dist
+COPY --from=build --chown=node:node /opt/app/database ./database
+COPY --from=build --chown=node:node /opt/app/public ./public
+RUN mkdir -p public/uploads && chown node:node . public public/uploads
 USER node
 
-CMD ["npm", "run", "start"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD node -e 'fetch("http://127.0.0.1:"+(process.env.PORT||1337)+"/_health",{signal:AbortSignal.timeout(4000)}).then(r=>process.exit(r.status===204?0:1)).catch(()=>process.exit(1))'
+CMD ["node", "/opt/node_modules/@strapi/strapi/bin/strapi.js", "start"]
