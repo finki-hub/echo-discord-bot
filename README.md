@@ -10,7 +10,7 @@ The bot provides a simple & customizable FAQ functionality with user friendly co
 
 ## Installation
 
-For development purposes, be sure to run `npm run prepare` to install the Git pre-commit hooks.
+Both subprojects require Node.js 26. Use the version in `.nvmrc` for local development; the Docker images and CI checks use the same major version.
 
 ### Installation (Docker)
 
@@ -36,6 +36,12 @@ Using the repository:
 6. Install the Strapi dependencies: `npm i`
 7. Build the project: `npm run build`
 
+### Checks
+
+From `bot`, run `npm run lint`, `npm test`, and `npm run build`. From `api`, run `npm run build` to compile the server and admin panel.
+
+The bot overrides `@discordjs/builders`' Shapeshift dependency to version 5 for Node 26's `InspectContext` typings. Remove this override once the upstream dependency supports Node 26 without it.
+
 ## Running
 
 ### Running (Docker)
@@ -50,7 +56,9 @@ Regardless of the Docker steps you have followed above for installation, run `do
 
 ## Configuration
 
-Copy the `env.example` file in the project root, rename it to `.env` and edit the environment variables inside.
+Copy the `.env.example` file in the project root, rename it to `.env` and edit the environment variables inside. Do not reuse the example secrets in a deployed instance.
+
+The bot reads FAQ content without authentication. In Strapi's Users & Permissions settings, enable the `question.find` action for the Public role. Keep question creation, updates, and deletion restricted to authorized users.
 
 ## License
 
