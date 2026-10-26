@@ -6,11 +6,15 @@ ENV NODE_ENV=development
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,id=echo-api-npm-${TARGETARCH},target=/root/.npm,sharing=locked \
-    npm ci --no-audit --no-fund
+    npm ci --ignore-scripts --no-audit --no-fund
 ENV PATH=/opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
-COPY --chown=node:node . .
+COPY --chown=node:node package.json package-lock.json tsconfig.json favicon.png ./
+COPY --chown=node:node config ./config
+COPY --chown=node:node src ./src
+COPY --chown=node:node database ./database
+COPY --chown=node:node public ./public
 RUN mkdir -p public/uploads && chown node:node . public public/uploads
 USER node
 

@@ -6,11 +6,15 @@ ENV NODE_ENV=production
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,id=echo-api-npm-${BUILDARCH},target=/root/.npm,sharing=locked \
-    npm ci --omit=dev --no-audit --no-fund
+    npm ci --ignore-scripts --omit=dev --no-audit --no-fund
 ENV PATH=/opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
-COPY . .
+COPY package.json package-lock.json tsconfig.json favicon.png ./
+COPY config ./config
+COPY src ./src
+COPY database ./database
+COPY public ./public
 RUN npm run build
 
 # Install native optional packages on the target platform, not the build host.
@@ -21,7 +25,7 @@ ENV NODE_ENV=production
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,id=echo-api-npm-${TARGETARCH},target=/root/.npm,sharing=locked \
-    npm ci --omit=dev --no-audit --no-fund
+    npm ci --ignore-scripts --omit=dev --no-audit --no-fund
 
 FROM node:26-alpine AS final
 ENV NODE_ENV=production
