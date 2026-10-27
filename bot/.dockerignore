@@ -1,14 +1,26 @@
-# NPM
-node_modules
+# Dependencies and generated output (including nested tooling caches)
+**/node_modules
+**/dist
+**/coverage
+**/.cache
+**/.npm
+**/.yarn
+**/.pnpm-store
+**/*.tsbuildinfo
+**/*.log
+**/logs
 
 # Development
 .editorconfig
-.env*
+**/.env*
+**/.npmrc
+**/*.pem
+**/*.key
 
 # ESLint
-.eslintcache
-eslint.config.json
+**/.eslintcache
 
 # Git
+.git
 .gitignore
 .gitattributes

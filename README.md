@@ -10,7 +10,7 @@ The bot provides a simple & customizable FAQ functionality with user friendly co
 
 ## Installation
 
-For development purposes, be sure to run `npm run prepare` to install the Git pre-commit hooks.
+Both subprojects require Node.js 26. Use the version in `.nvmrc` for local development; the Docker images and CI checks use the same major version.
 
 ### Installation (Docker)
 
@@ -26,6 +26,8 @@ Using the repository:
 1. Clone the repository: `git clone git@github.com:finki-hub/echo-discord-bot.git`
 2. Build the images: `docker compose build`
 
+Image builds use Docker BuildKit cache mounts (enabled by default in current Docker Desktop). Production images support Linux AMD64 and ARM64, with native dependencies installed for the target architecture and no compiler toolchain in the runtime image.
+
 ### Installation (Normal)
 
 1. Clone the repository: `git clone git@github.com:finki-hub/echo-discord-bot.git`
@@ -36,11 +38,23 @@ Using the repository:
 6. Install the Strapi dependencies: `npm i`
 7. Build the project: `npm run build`
 
+### Checks
+
+From `bot`, run `npm run lint`, `npm test`, and `npm run build`. From `api`, run `npm run build` to compile the server and admin panel.
+
+The bot overrides `@discordjs/builders`' Shapeshift dependency to version 5 for Node 26's `InspectContext` typings. Remove this override once the upstream dependency supports Node 26 without it.
+
+The API also overrides selected Strapi-pinned dependencies with same-major security updates. Review these overrides when upgrading Strapi; incompatible major updates are not forced into its dependency graph.
+
 ## Running
 
 ### Running (Docker)
 
 Regardless of the Docker steps you have followed above for installation, run `docker compose up -d`, provided that you have a `compose.yaml` file ready.
+
+Both applications run as the non-root `node` user (UID 1000). Any bind-mounted log or upload directories must be writable by that user. The production API image includes a healthcheck against `/_health` on its configured port.
+
+If Docker Desktop does not detect development source edits, set `CHOKIDAR_USEPOLLING=true` and `CHOKIDAR_INTERVAL=1000` in the root `.env`, then recreate the Strapi service with `docker compose up -d --force-recreate strapi`. Polling is opt-in to avoid unnecessary CPU usage where native file events work.
 
 ### Running (Normal)
 
@@ -50,7 +64,9 @@ Regardless of the Docker steps you have followed above for installation, run `do
 
 ## Configuration
 
-Copy the `env.example` file in the project root, rename it to `.env` and edit the environment variables inside.
+Copy the `.env.example` file in the project root, rename it to `.env` and edit the environment variables inside. Do not reuse the example secrets in a deployed instance.
+
+The bot reads FAQ content without authentication. In Strapi's Users & Permissions settings, enable the `question.find` action for the Public role. Keep question creation, updates, and deletion restricted to authorized users.
 
 ## License
 

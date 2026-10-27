@@ -13,7 +13,7 @@ const FormatSchema = z
     name: z.string(),
     path: z.string().nullable(),
     size: z.number(),
-    sizeInBytes: z.number(),
+    sizeInBytes: z.number().optional(),
     url: z.string(),
     width: z.number(),
   })
@@ -26,7 +26,7 @@ const FileSchema = z
     createdAt: z.string(),
     documentId: z.string(),
     ext: z.string(),
-    formats: z.record(Formats, FormatSchema).nullable(),
+    formats: z.partialRecord(Formats, FormatSchema).nullable(),
     hash: z.string(),
     height: z.number().nullable(),
     id: z.number(),
@@ -35,29 +35,38 @@ const FileSchema = z
     name: z.string(),
     previewUrl: z.string().nullable(),
     provider: z.string(),
-    provider_metadata: z.string().nullable(),
-    publishedAt: z.string(),
+    provider_metadata: z.record(z.string(), z.json()).nullable(),
+    publishedAt: z.string().nullable(),
     size: z.number(),
     updatedAt: z.string(),
     url: z.string(),
     width: z.number().nullable(),
   })
-  .strict();
+  // Only attachment names and URLs are consumed; upload metadata varies by provider.
+  .partial()
+  .required({ name: true, url: true });
 
 const QuestionSchema = z
   .object({
     content: z.string(),
     createdAt: z.string(),
     documentId: z.string(),
-    files: z.array(FileSchema).nullable(),
+    // Unpopulated relations are omitted from list responses.
+    files: z.array(FileSchema).nullable().optional(),
     id: z.number(),
     links: z.record(z.string(), z.string()).nullable(),
-    locale: z.string().nullable(),
+    locale: z.string().nullable().optional(),
     name: z.string(),
     publishedAt: z.string(),
     updatedAt: z.string(),
   })
-  .strict();
+  .partial({
+    createdAt: true,
+    documentId: true,
+    id: true,
+    publishedAt: true,
+    updatedAt: true,
+  });
 
 export const StrapiQuestionSchema = z
   .object({

@@ -35,7 +35,7 @@ export const getQuestionButtons = (question: Question) => {
 };
 
 export const getQuestionFiles = (question: Question) => {
-  if (question.files === null) {
+  if (question.files === null || question.files === undefined) {
     return [];
   }
 
@@ -43,6 +43,6 @@ export const getQuestionFiles = (question: Question) => {
 
   return question.files.map((file) => ({
     name: file.name,
-    url: `${strapiUrl}${file.url}`,
+    url: new URL(file.url, `${strapiUrl}/`).href,
   }));
 };
