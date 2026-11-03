@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "discord-api-types": "^0.38.57",
-    "discord.js": "^14.27.0",
+    "discord.js": "^14.28.0",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^5.0.0",
     "zod": "^4.6.7"
